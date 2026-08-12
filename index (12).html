@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>مفردات إسبانية - Las Vocabulario Español</title>
+<style>
+  :root {
+    --primary: #2563eb;
+    --primary-dark: #1e40af;
+    --accent: #f59e0b;
+    --bg: #f8fafc;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-soft: #64748b;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', 'Tahoma', 'Cairo', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: var(--shadow-lg);
+    text-align: center;
+  }
+
+  header h1 {
+    color: var(--primary-dark);
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+  }
+
+  header .subtitle {
+    color: var(--text-soft);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+  }
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .search-box {
+    flex: 1;
+    min-width: 250px;
+    max-width: 400px;
+    padding: 12px 18px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s;
+    background: white;
+  }
+
+  .search-box:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  }
+
+  .category-tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .tab {
+    padding: 8px 18px;
+    background: white;
+    border: 2px solid var(--border);
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s;
+    color: var(--text-soft);
+  }
+
+  .tab:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+  }
+
+  .tab.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+
+  .stat-card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: var(--shadow);
+  }
+
+  .stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary);
+  }
+
+  .stat-label {
+    color: var(--text-soft);
+    font-size: 0.9rem;
+  }
+
+  .section-title {
+    color: white;
+    font-size: 1.5rem;
+    margin: 30px 0 20px;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: inline-block;
+  }
+
+  .vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .card {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 20px;
+    padding-right: 16px;
+    box-shadow: var(--shadow);
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 6px;
+    height: 100%;
+    background: var(--primary);
+    transition: width 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary);
+  }
+
+  .card:hover::before {
+    width: 10px;
+  }
+
+  .card.flipped .front {
+    display: none;
+  }
+
+  .card.flipped .back {
+    display: flex;
+  }
+
+  .card.flipped {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: white;
+  }
+
+  .card.flipped::before {
+    background: white;
+  }
+
+  .front {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .back {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100px;
+  }
+
+  .card.flipped .spanish-word {
+    color: white;
+  }
+
+  .pronunciation {
+    font-size: 0.9rem;
+    color: var(--text-soft);
+    font-style: italic;
+    direction: ltr;
+    text-align: left;
+  }
+
+  .card.flipped .pronunciation {
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .arabic-translation {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text);
+  }
+
+  .card.flipped .arabic-translation {
+    color: white;
+    font-size: 1.8rem;
+  }
+
+  .gender-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    margin-left: 8px;
+    direction: ltr;
+  }
+
+  .gender-m { background: #dbeafe; color: #1e40af; }
+  .gender-f { background: #fce7f3; color: #be185d; }
+  .verb { background: #d1fae5; color: #065f46; }
+
+  .card.flipped .gender-tag {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+  }
+
+  .audio-btn {
+    background: var(--primary);
+    color: white;
+    border: none;
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 0;
+  }
+
+  .audio-btn:hover {
+    background: var(--primary-dark);
+    transform: scale(1.1);
+  }
+
+  .card.flipped .audio-btn {
+    background: white;
+    color: var(--accent);
+  }
+
+  .card.flipped .audio-btn:hover {
+    background: #fef3c7;
+  }
+
+  .spanish-word {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--primary-dark);
+    direction: ltr;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px;
+    color: white;
+    font-size: 1.2rem;
+  }
+
+  .flip-hint {
+    text-align: center;
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    margin-top: 5px;
+  }
+
+  footer {
+    text-align: center;
+    padding: 30px;
+    color: white;
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 1.8rem; }
+    .vocab-grid { grid-template-columns: 1fr; }
+    .controls { flex-direction: column; }
+    .search-box { width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>🇪🇸 Vocabulario Español 🇪🇬</h1>
+    <p class="subtitle">مفردات إسبانية مع الترجمة العربية - اضغط على أي بطاقة لمعرفة الترجمة</p>
+    <div class="controls">
+      <input type="text" id="search" class="search-box" placeholder="🔍 ابحث عن كلمة إسبانية أو عربية..." />
+    </div>
+    <div class="category-tabs">
+      <div class="tab active" data-cat="all">📚 الكل</div>
+      <div class="tab" data-cat="class">🏫 أدوات الفصل</div>
+      <div class="tab" data-cat="study">✏️ أدوات الدراسة</div>
+      <div class="tab" data-cat="school">🏫 المدرسة</div>
+      <div class="tab" data-cat="subjects">📖 المواد الدراسية</div>
+      <div class="tab" data-cat="verbs">🔄 الأفعال</div>
+      <div class="tab" data-cat="vocab">📝 مفردات</div>
+    </div>
+  </header>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-number" id="totalCount">0</div>
+      <div class="stat-label">إجمالي الكلمات</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="shownCount">0</div>
+      <div class="stat-label">المعروضة</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="flippedCount">0</div>
+      <div class="stat-label">تم حفظها</div>
+    </div>
+  </div>
+
+  <div id="vocabContainer"></div>
+
+  <footer>
+    <p>💡 نصيحة: اضغط على البطاقة لقلب الكارت ورؤية الترجمة العربية - اضغط 🔊 لسماع النطق</p>
+    <p style="margin-top: 10px; opacity: 0.8;">© 2026 - صفحة تفاعلية لتعلم الإسبانية</p>
+  </footer>
+</div>
+
+<script>
+// Vocabulary data
+const vocabData = [
+  // Las cosas de la clase - أشياء الفصل
+  { es: "la tele", pron: "la TE-le", ar: "التلفاز", cat: "class", gender: "f" },
+  { es: "la silla", pron: "la SEE-ya", ar: "الكرسي", cat: "class", gender: "f" },
+  { es: "el proyector", pron: "el pro-yec-TOR", ar: "البروجكتور (جهاز العرض)", cat: "class", gender: "m" },
+  { es: "la papelera", pron: "la pa-pe-LE-ra", ar: "سلة المهملات", cat: "class", gender: "f" },
+  { es: "el bolígrafo", pron: "el bo-LEE-gra-fo", ar: "القلم الجاف", cat: "class", gender: "m" },
+  { es: "el ordenador", pron: "el or-de-na-DOR", ar: "الكمبيوتر", cat: "class", gender: "m" },
+  { es: "el cuaderno", pron: "el kwa-DER-no", ar: "الدفتر", cat: "class", gender: "m" },
+  { es: "la pizarra", pron: "la pi-ZA-rra", ar: "السبورة", cat: "class", gender: "f" },
+  { es: "la mesa", pron: "la ME-sa", ar: "المنضدة / الطاولة", cat: "class", gender: "f" },
+  { es: "el libro", pron: "el LEE-bro", ar: "الكتاب", cat: "class", gender: "m" },
+  { es: "la mochila", pron: "la mo-CHEE-la", ar: "الحقيبة المدرسية", cat: "class", gender: "f" },
+  { es: "la hoja de papel", pron: "la O-ja de pa-PEL", ar: "ورقة", cat: "class", gender: "f" },
+
+  // El estudio - الدراسة
+  { es: "el proyector digital", pron: "el pro-yec-TOR di-ji-TAL", ar: "البروجكتور الرقمي", cat: "study", gender: "m" },
+  { es: "la pluma", pron: "la PLU-ma", ar: "القلم (الفاخر)", cat: "study", gender: "f" },
+  { es: "la punta", pron: "la PUN-ta", ar: "السن (سن القلم)", cat: "study", gender: "f" },
+  { es: "el color", pron: "el co-LOR", ar: "قلم الألوان", cat: "study", gender: "m" },
+  { es: "el lápiz", pron: "el LA-piz", ar: "قلم الرصاص", cat: "study", gender: "m" },
+  { es: "el sacapuntas", pron: "el sa-ca-PUN-tas", ar: "المبراة", cat: "study", gender: "m" },
+  { es: "la goma", pron: "la GO-ma", ar: "الممحاة (الاستيكة)", cat: "study", gender: "f" },
+  { es: "el libro de texto", pron: "el LEE-bro de TEX-to", ar: "الكتاب المدرسي", cat: "study", gender: "m" },
+  { es: "el estuche", pron: "el es-TU-che", ar: "مقلة الأقلام", cat: "study", gender: "m" },
+  { es: "la regla", pron: "la RE-gla", ar: "المسطرة", cat: "study", gender: "f" },
+
+  // La escuela - المدرسة
+  { es: "el pizarrón", pron: "el pi-za-RRON", ar: "السبورة الكبيرة", cat: "school", gender: "m" },
+  { es: "la maestra", pron: "la ma-ES-tra", ar: "المعلمة", cat: "school", gender: "f" },
+  { es: "la profesora", pron: "la pro-fe-SO-ra", ar: "الأستاذة", cat: "school", gender: "f" },
+  { es: "la cartera", pron: "la car-TE-ra", ar: "الحقيبة", cat: "school", gender: "f" },
+  { es: "la alumna", pron: "la a-LUM-na", ar: "الطالبة", cat: "school", gender: "f" },
+  { es: "el pupitre", pron: "el pu-PI-tre", ar: "مكتب الطالب", cat: "school", gender: "m" },
+  { es: "el gis", pron: "el GEES", ar: "الطباشير", cat: "school", gender: "m" },
+  { es: "la tiza", pron: "la TEE-sa", ar: "الطباشير (للمؤنث)", cat: "school", gender: "f" },
+  { es: "la colegiala", pron: "la co-le-JIA-la", ar: "طالبة المدرسة", cat: "school", gender: "f" },
+  { es: "el colegial", pron: "el co-le-JIAL", ar: "طالب المدرسة", cat: "school", gender: "m" },
+  { es: "el salón", pron: "el sa-LON", ar: "الفصل / القاعة", cat: "school", gender: "m" },
+
+  // Materias - المواد الدراسية
+  { es: "la historia", pron: "la is-TO-ria", ar: "التاريخ", cat: "subjects", gender: "f" },
+  { es: "el arte", pron: "el AR-te", ar: "الفن", cat: "subjects", gender: "m" },
+  { es: "la física", pron: "la FEE-si-ca", ar: "الفيزياء", cat: "subjects", gender: "f" },
+  { es: "la literatura", pron: "la li-te-ra-TU-ra", ar: "الأدب", cat: "subjects", gender: "f" },
+  { es: "la música", pron: "la MÚ-si-ca", ar: "الموسيقى", cat: "subjects", gender: "f" },
+  { es: "la química", pron: "la QUEE-mi-ca", ar: "الكيمياء", cat: "subjects", gender: "f" },
+  { es: "los idiomas", pron: "los i-DIO-mas", ar: "اللغات", cat: "subjects", gender: "m" },
+  { es: "la ciencia", pron: "la CIEN-cia", ar: "العلوم", cat: "subjects", gender: "f" },
+  { es: "la biología", pron: "la bi-o-lo-JI-a", ar: "الأحياء (البيولوجيا)", cat: "subjects", gender: "f" },
+  { es: "la geografía", pron: "la je-o-gra-FÍ-a", ar: "الجغرافيا", cat: "subjects", gender: "f" },
+  { es: "las matemáticas", pron: "las ma-te-MÁ-ti-cas", ar: "الرياضيات", cat: "subjects", gender: "f" },
+  { es: "la educación física", pron: "la e-du-ca-CIÓN FÍ-si-ca", ar: "التربية الرياضية", cat: "subjects", gender: "f" },
+
+  // Verbs - الأفعال
+  { es: "leer", pron: "le-ER", ar: "يقرأ", cat: "verbs", gender: "v" },
+  { es: "escribir", pron: "es-cri-BIR", ar: "يكتب", cat: "verbs", gender: "v" },
+  { es: "deletrear", pron: "de-le-tre-AR", ar: "يهجئ (يجمع الحروف)", cat: "verbs", gender: "v" },
+  { es: "dibujar", pron: "di-bu-JAR", ar: "يرسم", cat: "verbs", gender: "v" },
+  { es: "preguntar", pron: "pre-gun-TAR", ar: "يسأل", cat: "verbs", gender: "v" },
+  { es: "contestar", pron: "con-tes-TAR", ar: "يجاوب", cat: "verbs", gender: "v" },
+  { es: "discutir", pron: "dis-cu-TIR", ar: "يناقش", cat: "verbs", gender: "v" },
+  { es: "aprender", pron: "a-pren-DER", ar: "يتعلم", cat: "verbs", gender: "v" },
+  { es: "tomar apuntes", pron: "to-MAR a-PUN-tes", ar: "يأخذ ملاحظات", cat: "verbs", gender: "v" },
+  { es: "enseñar", pron: "en-se-ÑAR", ar: "يعلّم", cat: "verbs", gender: "v" },
+
+  // Vocabulario - مفردات إضافية
+  { es: "el director", pron: "el di-rec-TOR", ar: "المدير / الناظر", cat: "vocab", gender: "m" },
+  { es: "la respuesta", pron: "la res-PUES-ta", ar: "الإجابة", cat: "vocab", gender: "f" },
+  { es: "el diccionario", pron: "el dic-cio-NA-rio", ar: "القاموس", cat: "vocab", gender: "m" },
+  { es: "la lección", pron: "la lec-CIÓN", ar: "الدرس", cat: "vocab", gender: "f" },
+  { es: "la redacción", pron: "la re-dac-CIÓN", ar: "الإنشاء (المقال)", cat: "vocab", gender: "f" },
+  { es: "la enciclopedia", pron: "la en-ci-clo-PE-dia", ar: "الموسوعة", cat: "vocab", gender: "f" },
+  { es: "la pregunta", pron: "la pre-GUN-ta", ar: "السؤال", cat: "vocab", gender: "f" },
+  { es: "la tarea", pron: "la ta-RE-a", ar: "الواجب المنزلي", cat: "vocab", gender: "f" },
+  { es: "los deberes", pron: "los de-BE-res", ar: "الواجبات", cat: "vocab", gender: "m" },
+  { es: "la calificación", pron: "la ca-li-fi-ca-CIÓN", ar: "الدرجة / التقييم", cat: "vocab", gender: "f" },
+  { es: "la nota", pron: "la NO-ta", ar: "العلامة / الدرجة", cat: "vocab", gender: "f" },
+  { es: "el examen", pron: "el e-XA-men", ar: "الامتحان", cat: "vocab", gender: "m" },
+  { es: "el año", pron: "el A-ño", ar: "السنة", cat: "vocab", gender: "m" },
+  { es: "el curso", pron: "el CUR-so", ar: "العام الدراسي / الدورة", cat: "vocab", gender: "m" },
+  { es: "el estudiante", pron: "el es-tu-DIAN-te", ar: "الطالب", cat: "vocab", gender: "m" },
+  { es: "la estudiante", pron: "la es-tu-DIAN-te", ar: "الطالبة", cat: "vocab", gender: "f" },
+  { es: "el compañero", pron: "el com-pa-ÑE-ro", ar: "الزميل", cat: "vocab", gender: "m" },
+  { es: "la compañera", pron: "la com-pa-ÑE-ra", ar: "الزميلة", cat: "vocab", gender: "f" },
+];
+
+let flippedCards = new Set();
+let currentCategory = 'all';
+
+// Category labels
+const catLabels = {
+  class: '🏫 أدوات الفصل',
+  study: '✏️ أدوات الدراسة',
+  school: '🏫 المدرسة وأشخاصها',
+  subjects: '📖 المواد الدراسية',
+  verbs: '🔄 الأفعال',
+  vocab: '📝 مفردات إضافية'
+};
+
+function renderVocab() {
+  const container = document.getElementById('vocabContainer');
+  const search = document.getElementById('search').value.toLowerCase();
+
+  // Filter
+  let filtered = vocabData.filter(item => {
+    const matchCat = currentCategory === 'all' || item.cat === currentCategory;
+    const matchSearch = !search ||
+      item.es.toLowerCase().includes(search) ||
+      item.ar.includes(search) ||
+      item.pron.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+
+  // Group by category
+  const grouped = {};
+  filtered.forEach(item => {
+    if (!grouped[item.cat]) grouped[item.cat] = [];
+    grouped[item.cat].push(item);
+  });
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div class="empty-state">😔 لا توجد كلمات مطابقة للبحث</div>';
+    document.getElementById('shownCount').textContent = 0;
+    return;
+  }
+
+  let html = '';
+  for (const cat in grouped) {
+    html += `<h2 class="section-title">${catLabels[cat] || cat}</h2>`;
+    html += '<div class="vocab-grid">';
+    grouped[cat].forEach((item, idx) => {
+      const uniqueId = `${item.cat}-${item.es.replace(/\s+/g, '-')}`;
+      const isFlipped = flippedCards.has(uniqueId);
+      const genderClass = item.gender === 'm' ? 'gender-m' : item.gender === 'f' ? 'gender-f' : 'verb';
+      const genderLabel = item.gender === 'm' ? 'مذكر' : item.gender === 'f' ? 'مؤنث' : 'فعل';
+
+      html += `
+        <div class="card ${isFlipped ? 'flipped' : ''}" data-id="${uniqueId}" onclick="flipCard('${uniqueId}')">
+          <div class="front">
+            <div class="spanish-word">
+              <button class="audio-btn" onclick="event.stopPropagation(); speak('${item.es.replace(/'/g, "\\'")}')">🔊</button>
+              <span>${item.es}</span>
+              <span class="gender-tag ${genderClass}">${genderLabel}</span>
+            </div>
+            <div class="pronunciation">${item.pron}</div>
+            <div class="flip-hint">👆 اضغط للترجمة</div>
+          </div>
+          <div class="back">
+            <div class="arabic-translation">${item.ar}</div>
+            <div class="pronunciation" style="color: rgba(255,255,255,0.9);">${item.es}</div>
+          </div>
+        </div>
+      `;
+    });
+    html += '</div>';
+  }
+  container.innerHTML = html;
+
+  document.getElementById('shownCount').textContent = filtered.length;
+  document.getElementById('flippedCount').textContent = flippedCards.size;
+}
+
+function flipCard(id) {
+  if (flippedCards.has(id)) {
+    flippedCards.delete(id);
+  } else {
+    flippedCards.add(id);
+  }
+  renderVocab();
+}
+
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    window.speechSynthesis.cancel();
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'es-ES';
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  }
+}
+
+// Event listeners
+document.getElementById('search').addEventListener('input', renderVocab);
+
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentCategory = tab.dataset.cat;
+    renderVocab();
+  });
+});
+
+// Initial render
+document.getElementById('totalCount').textContent = vocabData.length;
+renderVocab();
+</script>
+</body>
+</html>
